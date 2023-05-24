@@ -211,7 +211,7 @@ def rdeq_nll_loss_fn(model,
   """Computes the (scalar) LM loss on `data` w.r.t. params."""
   inputs, targets = batch
 
-  params = hk.data_structures.merge(shared_params, personalized_params)
+  params = hk.data_structures.merge(deq_params, personalized_params)
   logits, embedding = model.apply(params, rng, inputs)
   targets = jax.nn.one_hot(targets, vocab_size)
   assert logits.shape == targets.shape
@@ -222,6 +222,7 @@ def rdeq_nll_loss_fn(model,
   quadratic_term = 0.5 * rho * tree_l2_norm(diff_params, squared=True)
 
   mask = jnp.greater(inputs, 0)
+  #print(jnp.sum(mask))
   log_likelihood = jnp.sum(targets * jax.nn.log_softmax(logits), axis=-1)
   return -jnp.sum(log_likelihood * mask)/jnp.sum(mask) + linear_term/jnp.sum(mask)  + quadratic_term/jnp.sum(mask)  # NLL per token.
 

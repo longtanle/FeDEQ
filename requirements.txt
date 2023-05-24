@@ -1,9 +1,13 @@
+jaxopt == 0.5.5
+dm-haiku == 0.0.9
+optax == 0.1.4
+chex == 0.1.5
 numpy
 tqdm
 scikit-learn
 pandas
-jax==0.3.25
-jaxlib==0.3.25+cuda11.cudnn82
-jaxopt==0.5.5
-dm-haiku==0.0.9
-optax==0.1.4
+torch
+torchvision
+seaborn
+matplotlib
+tqdm

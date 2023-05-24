@@ -60,20 +60,22 @@ Please extract the zip file and replace the original ``./data/`` folder by the e
 - Jaxlib == 0.3.25+cuda11.cudnn82
 - jaxopt == 0.5.5
 - optax == 0.1.4
+- chex == 0.1.5
 - dm-haiku == 0.0.9
 
-To install the dependencies: `pip3 install -r requirements.txt`
+Please follow the installation guidelines in [http://github.com/google/jax](https://github.com/google/jax#pip-installation-gpu-cuda) to install compatible version Jax and Jaxlib version for your machine. The version of packages related to Jax (Jaxopt, Optax, Chex) may also need to be adjusted for compatible with Jax and Jaxlib.
 
+To install other dependencies: `pip3 install -r requirements.txt`
 
 ## Experiments
 
 The general template commands for running an experiment are:
 
 ```bash
-bash runners/<dataset>/run_<algorithm>.sh --repeat 1 [other flags]
+bash runners/<dataset>/run_<algorithm>.sh [other flags]
 ```
 
-### Basic Usage
+### Flags
 
 | params | full params        | description                                               | default value | options |
 |--------|--------------------|-----------------------------------------------------------|---------------|---------|
@@ -109,10 +111,10 @@ bash runners/shakespeare/run_fedeq.sh -r 1 -g 0
 Run algorithms to evaluate the generalization to unseen clients
 
 ```bash
-bash runners/femnist/run_fedeq.sh -r 1 -fu 0.1 -g 0
-bash runners/cifar10/run_fedeq.sh -r 1 -fu 0.1 -g 0
-bash runners/cifar100/run_fedeq.sh -r 1 -fu 0.1 -g 0
-bash runners/shakespeare/run_fedeq.sh -r 1 -fu 0.1 -g 0
+bash runners/femnist/run_fedeq.sh -fu 0.1 -r 1 -g 0
+bash runners/cifar10/run_fedeq.sh -fu 0.1 -r 1 -g 0
+bash runners/cifar100/run_fedeq.sh -fu 0.1 -r 1 -g 0
+bash runners/shakespeare/run_fedeq.sh -fu 0.1 -r 1 -g 0
 ```
 
 ---
