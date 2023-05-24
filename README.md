@@ -35,7 +35,9 @@ shakespeare_character | Shakespeare    | Transformer-8, DEQ-Transformer        |
 <!-- mdformat on -->
 
 All datasets will be saved at ``./data/``.
+
 Link download the dataset folder: [Link](https://drive.google.com/file/d/1-15jPcxBcQy5okgX-9ddws4Ib0MIPEXq/view?usp=sharing)
+Please extract the zip file and replace the original ``./data/`` folder by the extraced ``./data/`` folder.
 
 ***The models and the datasets must match!!! Otherwise an error will occur.*** ❗️
 

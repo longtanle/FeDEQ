@@ -414,24 +414,6 @@ def get_model(model, dataset, forward_solver = None, backward_solver = None):
 ################################################
 ################  DEQ-MLP Haiku ################
 ################################################
-# For completeness, we also allow Anderson acceleration for solving
-# the implicit differentiation linear system occurring in the backward pass.
-
-def solve_linear_system_fixed_point(matvec, v):
-  """Solve linear system matvec(u) = v.
-
-  The solution u* of the system is the fixed point of:
-    T(u) = matvec(u) + u - v
-  """
-  def fixed_point_fun(u):
-    d_1_T_transpose_u = tree_add(matvec(u), u)
-    return tree_sub(d_1_T_transpose_u, v)
-
-  aa = AndersonAcceleration(fixed_point_fun,
-                            history_size=5, tol=1e-2,
-                            ridge=1e-4, maxiter=20)
-  return aa.run(v)[0]
-
 
 class DEQMLPFixedPoint(hk.Module):
     """Batched computation of ``block`` using ``fixed_point_solver``."""
@@ -483,8 +465,6 @@ class DEQMLPFixedPointRA(hk.Module):
 
         block_params = hk.experimental.lift(self.block.init, 
                                             name="DEQMLP_Block")(self.rng, z_init[0], x[0])        
-        #block_params = self.block.init(self.rng, x[0], x[0])
-        #block_params = self.param("block_params", init, x)
 
         def block_apply(z, x, block_params):
             return self.block.apply(block_params, self.rng, z, x)
@@ -516,16 +496,7 @@ class MLPBlock(hk.Module):
         self._bias = with_bias
         
     def __call__(self, z, x):
-        # Note that stddev=0.01 is important to avoid divergence.
-        # Empirically it ensures that fixed point iterations converge.
         initializer = hk.initializers.VarianceScaling(self._init_scale)
-        #z = hk.Flatten()(z)
-        # Defining conv1 channel = 154
-        #y = hk.Linear(self._widening_factor * self._hiddens, w_init=initializer)(z)
-        # Applying relu for self.conv1(z)
-        #y = self._activation(y)
-        # Applying Group Norm for nn.relu(self.conv1(z))
-        #h = hk.Flatten()(z)
         h = hk.Linear(self._hiddens, w_init=initializer, with_bias=self._bias)(z)
         h = h + x
         h = self._activation(h) 
@@ -556,8 +527,7 @@ class MLPBlock_V1(hk.Module):
         self._bias = with_bias
         
     def __call__(self, z, x):
-        # Note that stddev=0.01 is important to avoid divergence.
-        # Empirically it ensures that fixed point iterations converge.
+
         initializer = hk.initializers.VarianceScaling(self._init_scale)
         #z = hk.Flatten()(z)
         h = hk.Linear(self._widening_factor * self._hiddens,
@@ -807,7 +777,7 @@ class ResnetBlock(hk.Module):
         # Note that stddev=0.01 is important to avoid divergence.
         # Empirically it ensures that fixed point iterations converge.
         y = z
-        # Defining conv1 channel = 154
+        # Defining conv1 
         y = hk.Conv2D(output_channels=self._output_channels,
                       kernel_shape= self._kernel_shape, 
                       padding='SAME', with_bias = self._bias,
@@ -853,7 +823,7 @@ class ResnetBlock_Softplus(hk.Module):
         # Note that stddev=0.01 is important to avoid divergence.
         # Empirically it ensures that fixed point iterations converge.
         y = z
-        # Defining conv1 channel = 154
+        # Defining conv1
         y = hk.Conv2D(output_channels=self._output_channels,
                       kernel_shape= self._kernel_shape, 
                       padding='SAME', with_bias = self._bias,
@@ -894,8 +864,7 @@ class DEQFixedPoint(hk.Module):
         # shape of a single example
         # lift params
         block_params = hk.experimental.lift(self.block.init, name="DEQResnet_Block")(self.rng, x[0], x[0])        
-        #block_params = self.block.init(self.rng, x[0], x[0])
-        #block_params = self.param("block_params", init, x)
+
 
         def block_apply(z, x, block_params):
             return self.block.apply(block_params, self.rng, z, x)
