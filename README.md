@@ -37,6 +37,7 @@ shakespeare_character | Shakespeare    | Transformer-8, DEQ-Transformer        |
 All datasets will be saved at ``./data/``.
 
 Link download the dataset folder: [Link](https://drive.google.com/file/d/1-15jPcxBcQy5okgX-9ddws4Ib0MIPEXq/view?usp=sharing)
+
 Please extract the zip file and replace the original ``./data/`` folder by the extraced ``./data/`` folder.
 
 ***The models and the datasets must match!!! Otherwise an error will occur.*** ❗️
@@ -63,7 +64,7 @@ Please extract the zip file and replace the original ``./data/`` folder by the e
 - chex == 0.1.5
 - dm-haiku == 0.0.9
 
-Please follow the installation guidelines in [http://github.com/google/jax](https://github.com/google/jax#pip-installation-gpu-cuda) to install compatible version Jax and Jaxlib version for your machine. The version of packages related to Jax (Jaxopt, Optax, Chex) may also need to be adjusted for compatible with Jax and Jaxlib.
+Please follow the installation guidelines in [http://github.com/google/jax](https://github.com/google/jax#pip-installation-gpu-cuda) to install compatible version Jax and Jaxlib version for your machine. The version of packages related to Jax (jaxopt, optax, chex, dm-haiku) may also need to be adjusted for compatible with Jax and Jaxlib.
 
 To install other dependencies: `pip3 install -r requirements.txt`
 
