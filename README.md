@@ -1,5 +1,5 @@
-# Federated Deep Equilibrium Learning: A Compact Shared Representation for Edge Personalization
-This repository implements all experiments for the paper **Federated Deep Equilibrium Learning: A Compact Shared Representation for Edge Personalization**.
+# Federated Deep Equilibrium Learning: A Compact Shared Representation for Edge Efficiency
+This repository implements all experiments for the paper **Federated Deep Equilibrium Learning: A Compact Shared Representation for Edge Efficiency**.
 
 Authors:
 
